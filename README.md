@@ -32,4 +32,8 @@ Be sure to add dependencies and add the web components.  I named the artifact `s
 
 I copied the contacts data from the React project into the java project and added some code to load it into a repository.
 
-The `data.ts` file was updated to load contacts from the local server.
+Back in the React code, the `data.ts` file was updated to load contacts from the local server.
+
+## Running with docker compose
+
+    docker compose up
