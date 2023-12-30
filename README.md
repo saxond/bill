@@ -36,6 +36,10 @@ I copied the contacts data from the React project into the java project and adde
 
 Back in the React code, the `data.ts` file was updated to load contacts from the local server.
 
+## Building server container image
+
+    docker compose up db --detach && pushd server && ./gradlew build && popd
+
 ## Running with docker compose
 
     docker compose up

@@ -10,7 +10,6 @@ import java.util.stream.StreamSupport;
 
 @RequestMapping(value = "/contacts", produces="application/json")
 @RestController
-
 public class ContactsController {
 
     private final ContactRepository contactRepository;
