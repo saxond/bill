@@ -31,7 +31,7 @@ public class Contact {
     }
 
     public String getFirst() {
-        return first;
+        return "Dipshit " + this.first;
     }
 
     public void setFirst(String first) {
