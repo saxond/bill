@@ -43,3 +43,8 @@ Back in the React code, the `data.ts` file was updated to load contacts from the
 ## Running with docker compose
 
     docker compose up
+
+
+## TODO
+
+https://github.com/remix-run/remix/issues/806
