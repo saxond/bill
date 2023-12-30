@@ -26,7 +26,9 @@ I used this page to create a template spring boot project:
 
 https://start.spring.io
 
-Be sure to add dependencies and add the web components.  I named the artifact `server`, downloaded it, then unziped it:
+Click Dependencies and select Spring Web, Spring Data JPA, and MySQL Driver.
+
+I named the artifact `server`, downloaded it, then unziped it:
 
     unzip ~/Downloads/server.zip
 

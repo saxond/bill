@@ -19,7 +19,7 @@ services:
       context: .
       dockerfile: Dockerfile.server
     environment:
-      - DATABASE_URL=db:3306
+      - MYSQL_HOST=db
     ports:
       - 8080:8080
     depends_on:
