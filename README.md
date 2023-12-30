@@ -2,11 +2,13 @@
 
 ## Tools / IDEs
 
-    brew install java gradle node
+    brew install java gradle node git
 
 VS Code
 
 IntelliJ
+
+Github Desktop
 
 ## Getting started
 
