@@ -10,6 +10,8 @@ IntelliJ
 
 Github Desktop
 
+Docker Desktop
+
 ## Getting started
 
 I used this remix tutorial to get started:

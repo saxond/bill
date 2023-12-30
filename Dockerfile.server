@@ -1,0 +1,6 @@
+FROM openjdk:17-jdk-slim-buster
+WORKDIR /app
+
+COPY server/build/libs/server-*-SNAPSHOT.jar .
+
+ENTRYPOINT java -jar server-*-SNAPSHOT.jar
