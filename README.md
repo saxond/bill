@@ -29,3 +29,5 @@ Be sure to add dependencies and add the web components.  I called the artifact s
     unzip ~/Downloads/server.zip
 
 I copied the contacts data from the React project into the java project and added some code to load it into a repository.
+
+The `data.ts` file was updated to load contacts from the local server.
