@@ -22,6 +22,8 @@ export type ContactRecord = ContactMutation & {
   createdAt: string;
 };
 
+const serverHostPort = process.env.SERVER_PORT || "localhost:8080";
+
 ////////////////////////////////////////////////////////////////////////////////
 // This is just a fake DB table. In a real app you'd be talking to a real db or
 // fetching from an existing API.
@@ -30,7 +32,7 @@ const fakeContacts = {
 
   async getAll(): Promise<ContactRecord[]> {
     try {
-      const response = await fetch('http://localhost:8080/contacts/');
+      const response = await fetch(`http://${serverHostPort}/contacts/`);
       return await response.json();
      } catch(error) {
       console.error(error);
@@ -40,7 +42,7 @@ const fakeContacts = {
 
   async get(id: string): Promise<ContactRecord | null> {
     try {
-      const response = await fetch(`http://localhost:8080/contacts/${id}`);
+      const response = await fetch(`http://${serverHostPort}/contacts/${id}`);
       return await response.json();
      } catch(error) {
       console.error(error);
