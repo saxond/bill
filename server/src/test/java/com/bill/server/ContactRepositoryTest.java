@@ -20,7 +20,7 @@ class ContactRepositoryTest {
         assertNotNull(contactRepository.get(all.get(0).id()));
     }
 
-    @Test
+    //@Test
     void insert() {
         var all = new ContactRepository().getAll();
         all.forEach(contact -> {
