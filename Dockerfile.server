@@ -1,6 +1,16 @@
 FROM openjdk:17-jdk-slim-buster
-WORKDIR /app
 
-COPY server/build/libs/server-*-SNAPSHOT.jar .
+RUN apt update && apt upgrade -y
+#RUN apt install -y gradle
+
+WORKDIR /build
+
+COPY ./server .
+
+RUN ./gradlew tasks
+RUN mkdir /app
+RUN ./gradlew assembleDist && cp build/libs/server-*-SNAPSHOT.jar /app
+
+WORKDIR /app
 
 ENTRYPOINT java -jar server-*-SNAPSHOT.jar
