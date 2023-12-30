@@ -36,4 +36,8 @@ public class ContactRepository {
             return List.of();
         }
     }
+
+    public Contact get(String id) {
+        return getAll().stream().filter(c -> c.id().equals(id)).findAny().orElseThrow();
+    }
 }

@@ -27,6 +27,6 @@ public class ContactsController {
     @GetMapping("{id}")
     public Contact get(@PathVariable String id) {
         System.err.println("Get " + id);
-        return contactRepository.getAll().stream().filter(c -> c.id().equals(id)).findAny().orElseThrow();
+        return contactRepository.get(id);
     }
 }
