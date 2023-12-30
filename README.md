@@ -24,7 +24,7 @@ I used this page to create a template spring boot project:
 
 https://start.spring.io
 
-Be sure to add dependencies and add the web components.  I called the artifact server, downloaded it, then unziped it:
+Be sure to add dependencies and add the web components.  I named the artifact `server`, downloaded it, then unziped it:
 
     unzip ~/Downloads/server.zip
 
