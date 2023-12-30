@@ -27,3 +27,5 @@ I used this page to create a template spring boot project:
 Be sure to add dependencies and add the web components.  I called the artifact server, downloaded it, then unziped it:
 
     unzip ~/Downloads/server.zip
+
+I copied the contacts data from the React project into the java project and added some code to load it into a repository.
