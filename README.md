@@ -50,7 +50,7 @@ From the app directory:
 
 ### Running java server
 
-From the `server` directory:
+From the root directory:
 
     ./gradlew run
 

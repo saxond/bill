@@ -5,11 +5,11 @@ RUN apt update && apt upgrade -y
 
 WORKDIR /build
 
-COPY ./server .
+COPY ./ .
 
 RUN ./gradlew tasks
 RUN mkdir /app
-RUN ./gradlew assembleDist && cp build/libs/server-*-SNAPSHOT.jar /app
+RUN ./gradlew assembleDist && cp server/build/libs/server-*-SNAPSHOT.jar /app
 
 WORKDIR /app
 
