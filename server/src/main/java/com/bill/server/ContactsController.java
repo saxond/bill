@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.StreamSupport;
 
-@RequestMapping(value = "/contacts", produces="application/json")
+@RequestMapping(value = "/contacts", produces = "application/json")
 @RestController
 public class ContactsController {
 
@@ -17,7 +17,7 @@ public class ContactsController {
     public ContactsController(ContactRepository contactRepository) {
         this.contactRepository = contactRepository;
     }
-    
+
     @GetMapping("/")
     public List<Contact> index() {
         System.err.println("Getall");

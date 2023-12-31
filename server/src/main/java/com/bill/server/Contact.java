@@ -7,7 +7,8 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "contacts")
 public class Contact {
-    @Id private String id;
+    @Id
+    private String id;
     private String avatar;
     private String first;
     private String last;

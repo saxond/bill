@@ -21,13 +21,17 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class ContactRepositoryTest {
 
-    @Autowired private DataSource dataSource;
-    @Autowired private JdbcTemplate jdbcTemplate;
-    @Autowired private EntityManager entityManager;
-    @Autowired ContactRepository repository;
+    @Autowired
+    private DataSource dataSource;
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private EntityManager entityManager;
+    @Autowired
+    ContactRepository repository;
 
     @Test
-    void injectedComponentsAreNotNull(){
+    void injectedComponentsAreNotNull() {
         assertNotNull(dataSource);
         assertNotNull(jdbcTemplate);
         assertNotNull(entityManager);
