@@ -28,7 +28,7 @@ https://start.spring.io
 
 Click Dependencies and select Spring Web, Spring Data JPA, and MySQL Driver.
 
-I named the artifact `server`, downloaded it, then unziped it:
+I named the artifact `server`, downloaded it, then unzipped it:
 
     unzip ~/Downloads/server.zip
 
@@ -54,6 +54,11 @@ From the root directory:
 
     ./gradlew run
 
+## Testing
+
+The java tests are split between unit and integration tests.  The unit tests use an H2 embedded Database in MySQL mode, while the integration tests use the actual MySQL database that runs in a docker container (`docker compose up db`).
+
+A github action is set up to run `./gradlew build` with each commit.  That assembles the java distribution and runs the tests, but it does not run the integration tests.
 
 ## TODO
 
