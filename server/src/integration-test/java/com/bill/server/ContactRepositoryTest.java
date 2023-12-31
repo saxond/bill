@@ -2,18 +2,15 @@ package com.bill.server;
 
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.sql.DataSource;
-import java.io.IOException;
 import java.util.stream.StreamSupport;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * This test depends on a running instance of the db container.
