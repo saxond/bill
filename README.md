@@ -40,6 +40,20 @@ Back in the React code, the `data.ts` file was updated to load contacts from the
 
     docker compose up
 
+## Running locally
+
+### Running Remix app
+
+From the app directory:
+
+    npm run dev
+
+### Running java server
+
+From the `server` directory:
+
+    ./gradlew run
+
 
 ## TODO
 

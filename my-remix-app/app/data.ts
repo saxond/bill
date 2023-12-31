@@ -58,9 +58,14 @@ const fakeContacts = {
     return updatedContact;
   },
 
-  destroy(id: string): null {
-    delete fakeContacts.records[id];
-    return null;
+  async destroy(id: string): Promise<null> {
+    try {
+      const response = await fetch(`http://${serverHostPort}/contacts/${id}`, { method: 'DELETE' });
+      return await response.json();
+     } catch(error) {
+      console.error(error);
+      return null;
+    }
   },
 };
 
