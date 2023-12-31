@@ -38,3 +38,7 @@ spotless {
 		indentWithSpaces(4)
 	}
 }
+
+afterEvaluate {
+	tasks["test"].dependsOn("spotlessCheck")
+}
