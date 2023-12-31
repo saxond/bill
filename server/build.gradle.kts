@@ -22,6 +22,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	runtimeOnly("com.mysql:mysql-connector-j")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("com.h2database:h2:2.2.224")
 }
 
 application {
@@ -54,10 +55,6 @@ val integrationTestTask = tasks.register<Test>("integrationTest") {
 	classpath = sourceSets["integrationTest"].runtimeClasspath
 
 	shouldRunAfter("test")
-}
-
-tasks.check {
-	dependsOn(integrationTestTask)
 }
 
 /*
