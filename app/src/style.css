@@ -1,0 +1,189 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: #f7f7f7;
+  }
+  
+  html,
+  body,
+  div#root {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  input,
+  button,
+  pre {
+    margin: 8px;
+  }
+  
+  h1 code,
+  h2 code,
+  h3 code,
+  h4 code,
+  h5 code,
+  h6 code,
+  p code,
+  input code,
+  button code {
+    color: #ff1e1f
+  }
+  
+  html,
+  body,
+  div#root,
+  .app-frame,
+  .app-main {
+    height: 100%;
+    overflow: hidden;
+  }
+  
+  pre {
+    color: #00ff8c;
+    background-color: #272727;
+    border-radius: 4px;
+    padding: 12px;
+    margin: 12px;
+    line-height: 1.2rem;
+  }
+  
+  pre,
+  code {
+    font-family: 'Consolas', 'Courier New', Courier, monospace
+  }
+  
+  a {
+    text-decoration: none;
+    color: #009cff;
+  }
+  
+  a:visited {
+    text-decoration: none;
+    color: #4c00ff;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
+  a code {
+    color: #4c00ff;
+  }
+  
+  a:visited code {
+    color: #009cff;  
+  }
+  
+  .sidebar, .app-body {
+    height: 100%;
+    overflow: auto;
+  }
+  
+  .sidebar {
+    width: 10rem;
+    min-width: 10rem;
+    max-width: 10rem;
+    background-color: #eee;
+  }
+  
+  .sidebar a {
+    margin: 8px;
+  }
+  
+  .header {
+    background-color: #00ff8c;
+  }
+  
+  .header a {
+    margin: 8px;
+    color: #000;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+  
+  .container {
+    padding: 4px;
+  }
+  
+  .card {
+    margin: 4px;
+    padding: 4px;
+    background-color: #ffffff;
+  }
+  
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: stretch;  
+  }
+  
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  
+  .flex {
+    flex: 1 1 auto;
+  }
+  
+  .wrap {
+    flex-wrap: wrap;
+  }
+  
+  .justify-flex-start {
+    justify-content: flex-start;
+  }
+  
+  .justify-center {
+    justify-content: center;
+  }
+  
+  .justify-flex-end {
+    justify-content: flex-end;
+  }
+  
+  .justify-space-around {
+    justify-content: space-around;
+  }
+  
+  .justify-space-between {
+    justify-content: space-between;
+  }
+  
+  .justify-space-evenly {
+    justify-content: space-evenly;
+  }
+  
+  .justify-baseline {
+    justify-content: baseline;
+  }
+  
+  .align-flex-start {
+    align-items: flex-start;
+  }
+  
+  .align-center {
+    align-items: center;
+  }
+  
+  .align-flex-end {
+    align-items: flex-end;
+  }
+  
+  .align-baseline {
+    align-items: baseline;
+  }
+  
+  .align-stretch {
+    align-items: stretch;
+  }

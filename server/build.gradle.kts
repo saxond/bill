@@ -3,7 +3,7 @@ plugins {
 	application
 	id("org.springframework.boot") version "3.2.1"
 	id("io.spring.dependency-management") version "1.1.4"
-//	id("com.diffplug.spotless") version "5.16.0"
+	id("com.diffplug.spotless") version "6.23.3"
 }
 
 group = "com.bill"
@@ -57,7 +57,6 @@ val integrationTestTask = tasks.register<Test>("integrationTest") {
 	shouldRunAfter("test")
 }
 
-/*
 spotless {
 	java {
 		eclipse()
@@ -67,4 +66,4 @@ spotless {
 
 afterEvaluate {
 	tasks["test"].dependsOn("spotlessCheck")
-}*/
+}
