@@ -32,7 +32,7 @@ export default function Contacts() {
             <div>
                 <h1>Contacts</h1>
                 <nav>
-                    {contacts && contacts.length ? (
+                    {contacts?.length ? (
                         <ul>
                             {contacts.map((contact) => (
                                 <li key={contact.id}>
