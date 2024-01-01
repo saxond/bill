@@ -28,9 +28,7 @@ export default function Contacts() {
     if (loading) return <div>Loading</div>;
 
     return (
-        <div className="flex-column">
-            <div>
-                <h1>Contacts</h1>
+            <div className="flex-row">
                 <nav>
                     {contacts?.length ? (
                         <ul>
@@ -57,11 +55,10 @@ export default function Contacts() {
                         </p>
                     )}
                 </nav>
+                <div className="detail">
+                    {id ? <Contact id={id}/> : <></>}
+                </div>
             </div>
-            <div className="detail">
-                { id ? <Contact id={id}/> : <></> }
-            </div>
-        </div>
     );
 }
 
