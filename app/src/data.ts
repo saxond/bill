@@ -86,7 +86,7 @@ export async function getContacts(query?: string | null) {
 }
 
 export async function createEmptyContact() {
-  const contact = await fakeContacts.create({});
+  const contact = null; //await fakeContacts.create({});
   return contact;
 }
 

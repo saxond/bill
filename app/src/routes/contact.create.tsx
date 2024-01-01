@@ -14,5 +14,5 @@ export default function CreateContact() {
       };
     console.log(contact);
     //return (<EditContact contact={contact} />);
-    return (<EditContact />);
+    return (<EditContact contact={null} />);
 }
