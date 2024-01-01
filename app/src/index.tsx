@@ -6,10 +6,10 @@ import {
   Switch,
   Link
 } from 'react-router-dom';
-import Home from './routes/home';
-import Contacts from './routes/contacts';
-import UpdateContact from './routes/contact.update';
-import CreateContact from './routes/contact.create';
+import Home from './routes/home.tsx';
+import Contacts from './routes/contacts.tsx';
+import UpdateContact from './routes/contact.update.tsx';
+import CreateContact from './routes/contact.create.tsx';
 import './style.css';
 
 export default function App() {
