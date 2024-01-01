@@ -7,6 +7,7 @@ import java.util.UUID;
 import java.util.stream.StreamSupport;
 
 @RequestMapping(value = "/contacts", produces = "application/json")
+@CrossOrigin
 @RestController
 public class ContactsController {
 

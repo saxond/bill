@@ -1,9 +1,9 @@
 import React from 'react';
 
-export default class Home extends React.Component {
-  render = () => (
-    <React.Fragment>
-      <h1>Home</h1>
-    </React.Fragment>
+export default function Home() {
+  return (
+    <div>
+      <h2>Home</h2>
+    </div>
   );
 }
