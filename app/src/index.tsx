@@ -28,8 +28,8 @@ export default function App() {
               <Route exact path="/" component={Home} />
               <Route exact path="/contacts" component={Contacts} />
               <Route exact path="/contacts/create" component={CreateContact} />
-              <Route path="/contacts/:id" component={Contacts} />
               <Route path="/contacts/update/:id" component={UpdateContact} />
+              <Route path="/contacts/:id" component={Contacts} />
             </Switch>
           </div>
         </div>

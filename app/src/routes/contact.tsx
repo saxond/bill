@@ -28,6 +28,9 @@ export default function Contact(props: Props) {
     return (
         <div id="contact">
             <div>
+            <form action={`/contacts/update/${id}`}>
+                <button>Edit</button>
+            </form>
             <img
                 alt={`${contact.first} ${contact.last} avatar`}
                 key={contact.avatar}

@@ -3,10 +3,11 @@ import React from "react";
 import {
     useParams
 } from 'react-router-dom';
+import EditContact from './contact.edit.tsx';
 
 //import { getContact } from "../data.ts";
 
 export default function UpdateContact() {
     const { id } = useParams();
-    return (<>{id}</>);
+    return (<EditContact id={id} />);
 }
