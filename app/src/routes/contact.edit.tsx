@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-import { getContact } from "../data";
+import { getContact, getServerHostPort } from "../data";
 
 interface Props {
     id?: string;
@@ -24,11 +24,51 @@ export default function EditContact(props: Props) {
         loadContact();
     }, [id]);
 
+    const onSubmit = (e) => {
+        e.preventDefault();
+
+        const data = Array.from(e.target.elements)
+          .filter((input) => input.name)
+          .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {});
+
+          console.log("Update", data);
+
+    const url = id ? `/contacts/${id}` : `/contacts`;
+    const fullUrl = `http://${getServerHostPort()}${url}`;
+    const method = id ? `PUT` : `POST`;
+    fetch(fullUrl, {
+        method: method,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then((response) => {
+          if (response.status !== 200) {
+            throw new Error(response.statusText);
+          }
+  
+          return response.json();
+        })
+        .then(() => {
+          //setMessage("We'll be in touch soon.");
+          //setStatus('success');
+        })
+        .catch((err) => {
+          console.log("Error", err);
+          //setMessage(err.toString());
+          //setStatus('error');
+        });
+
+        //this.setState({description: ''});
+    };
+
     if (loading) return (<div>Loading</div>);
 
     console.log("Edit", id);
     return (
-        <form id="contact-form" method="post">
+        <form id="contact-form" method="post" onSubmit={onSubmit}>
           <p>
             <span>Name</span>
             <input

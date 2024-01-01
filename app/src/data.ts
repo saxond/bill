@@ -94,6 +94,10 @@ export async function getContact(id: string) {
   return fakeContacts.get(id);
 }
 
+export function getServerHostPort() {
+  return serverHostPort;
+}
+
 export async function updateContact(id: string, updates: ContactMutation) {
   const contact = await fakeContacts.get(id);
   if (!contact) {
