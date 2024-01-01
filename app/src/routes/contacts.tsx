@@ -4,7 +4,7 @@ import {
     useParams
 } from 'react-router-dom';
 import { getContacts } from "../data.ts";
-import Contact from './contact.js';
+import Contact from './contact.tsx';
 
 const newContactId = "create";
 
@@ -39,7 +39,7 @@ export default function Contacts() {
 
     return (
             <div className="flex-row">
-                <form action={`/contacts/${newContactId}`}>
+                <form action="/contacts/create">
                     <button>New</button>
                 </form>
                 <nav>

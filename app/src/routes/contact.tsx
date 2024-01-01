@@ -1,10 +1,15 @@
 import React, { useState, useEffect } from "react";
-import PropTypes from 'prop-types';
 import { getContact } from "../data.ts";
 
-export default function Contact({id}) {
+
+interface Props {
+    id: string;
+}
+
+export default function Contact(props: Props) {
     const [loading, setLoading] = useState(false);
     const [contact, setContact] = useState(null);
+    const {id} = props;
 
     useEffect(() => {
         setLoading(true);
@@ -57,9 +62,4 @@ export default function Contact({id}) {
             </div>
         </div>
         );
-    }
-
-
-Contact.propTypes = {
-    id: PropTypes.string
-};
+}

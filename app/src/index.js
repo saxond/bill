@@ -6,8 +6,10 @@ import {
   Switch,
   Link
 } from 'react-router-dom';
-import Home from './routes/home.js';
-import Contacts from './routes/contacts.js';
+import Home from './routes/home.tsx';
+import Contacts from './routes/contacts.tsx';
+import UpdateContact from './routes/contact.update.tsx';
+import CreateContact from './routes/contact.create.tsx';
 import './style.css';
 
 export default function App() {
@@ -25,7 +27,9 @@ export default function App() {
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/contacts" component={Contacts} />
+              <Route exact path="/contacts/create" component={CreateContact} />
               <Route path="/contacts/:id" component={Contacts} />
+              <Route path="/contacts/update/:id" component={UpdateContact} />
             </Switch>
           </div>
         </div>
