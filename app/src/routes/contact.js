@@ -3,22 +3,21 @@ import PropTypes from 'prop-types';
 import { getContact } from "../data.ts";
 
 export default function Contact({id}) {
-    console.log(id);
-
     const [loading, setLoading] = useState(false);
-    const [contact, setContact] = useState([]);
+    const [contact, setContact] = useState(null);
 
     useEffect(() => {
         setLoading(true);
-        const loadPost = async () => {
+        const loadContact = async () => {
             try {
                 setContact(await getContact(id));
+                console.log("Loaded contact");
             } finally {
                 setLoading(false);
             }
         };
-        loadPost();
-    }, []);
+        loadContact();
+    }, [id]);
 
     if (loading || !contact) return (<div>Loading</div>);
     return (
