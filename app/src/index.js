@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { render } from 'react-dom';
+import React from 'react';
+import { createRoot } from 'react-dom/client';
 import {
   BrowserRouter as Router,
   Route,
@@ -33,4 +33,6 @@ export default function App() {
   );
 }
 
-render(<App />, document.getElementById('root'));
+const container = document.getElementById('app');
+const root = createRoot(container);
+root.render(<App />);

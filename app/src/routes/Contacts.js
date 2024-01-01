@@ -3,7 +3,6 @@ import {
     Link
 } from 'react-router-dom';
 import { getContacts } from "../data.ts";
-import axios from "axios";
 
 export default function Contacts() {
     const [loading, setLoading] = useState(false);
