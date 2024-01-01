@@ -3,7 +3,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 //import { matchSorter } from "match-sorter";
-// @ts-expect-error - no types, but it's a tiny function
+// @@ts-expect-error - no types, but it's a tiny function
 //import sortBy from "sort-by";
 import invariant from "tiny-invariant";
 
@@ -36,7 +36,7 @@ const fakeContacts = {
       return await response.json();
      } catch(error) {
       console.error(error);
-      return null;
+      return [];
     }
   },
 
@@ -73,11 +73,13 @@ const fakeContacts = {
 // Handful of helper functions to be called from route loaders and actions
 export async function getContacts(query?: string | null) {
   await new Promise((resolve) => setTimeout(resolve, 500));
-  let contacts = await fakeContacts.getAll();
+  const contacts = await fakeContacts.getAll();
   if (query) {
+    /*
     contacts = matchSorter(contacts, query, {
       keys: ["first", "last"],
     });
+    */
   }
   //return contacts.sort(sortBy("last", "createdAt"));
   return contacts;
