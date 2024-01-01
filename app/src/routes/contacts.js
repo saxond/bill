@@ -4,7 +4,18 @@ import {
     useParams
 } from 'react-router-dom';
 import { getContacts } from "../data.ts";
-import Contact from './contact';
+import Contact from './contact.js';
+
+const newContactId = "create";
+
+function showDetail(id) {
+    if (id === newContactId) {
+        return (<>New</>);
+    } else if (id) {
+        return (<Contact id={id}/>);
+    }
+    return (<></>);
+}
 
 export default function Contacts() {
     const [loading, setLoading] = useState(false);
@@ -28,6 +39,9 @@ export default function Contacts() {
 
     return (
             <div className="flex-row">
+                <form action={`/contacts/${newContactId}`}>
+                    <button>New</button>
+                </form>
                 <nav>
                     {contacts?.length ? (
                         <ul>
@@ -55,7 +69,7 @@ export default function Contacts() {
                     )}
                 </nav>
                 <div className="detail">
-                    {id ? <Contact id={id}/> : <></>}
+                    {showDetail(id)}
                 </div>
             </div>
     );

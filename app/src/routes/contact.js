@@ -10,8 +10,8 @@ export default function Contact({id}) {
         setLoading(true);
         const loadContact = async () => {
             try {
-                setContact(await getContact(id));
-                console.log("Loaded contact");
+                const contact = await getContact(id);
+                setContact(contact);
             } finally {
                 setLoading(false);
             }

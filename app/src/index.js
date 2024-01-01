@@ -6,8 +6,8 @@ import {
   Switch,
   Link
 } from 'react-router-dom';
-import Home from './routes/home';
-import Contacts from './routes/contacts';
+import Home from './routes/home.js';
+import Contacts from './routes/contacts.js';
 import './style.css';
 
 export default function App() {
