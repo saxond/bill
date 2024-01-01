@@ -8,23 +8,16 @@ import axios from "axios";
 export default function Contacts() {
     const [loading, setLoading] = useState(false);
     const [contacts, setContacts] = useState([]);
-    const serverHostPort = "localhost:8080";
 
     useEffect(() => {
+        setLoading(true);
         const loadPost = async () => {
-            // Till the data is fetch using API
-            // the Loading page will show.
-            setLoading(true);
-
-            const response = await getContacts();
-
-            // After fetching data stored it in posts state.
-            setContacts(response);
-
-            // Closed the loading page
-            setLoading(false);
+            try {
+                setContacts(await getContacts());
+            } finally {
+                setLoading(false);
+            }
         };
-        // Call the function
         loadPost();
     }, []);
 
