@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { getContacts } from "../data.ts";
-//import Contact from './contact';
+import Contact from './contact';
 
 export default function Contacts() {
     const [loading, setLoading] = useState(false);
@@ -59,7 +59,7 @@ export default function Contacts() {
                 </nav>
             </div>
             <div className="detail">
-                { id ? <>{id}</> : <></> }
+                { id ? <Contact id={id}/> : <></> }
             </div>
         </div>
     );
