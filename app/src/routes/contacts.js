@@ -3,7 +3,6 @@ import {
     Link,
     useParams
 } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import { getContacts } from "../data.ts";
 import Contact from './contact';
 
@@ -61,7 +60,3 @@ export default function Contacts() {
             </div>
     );
 }
-
-Contacts.propTypes = {
-    id: PropTypes.string
-};
