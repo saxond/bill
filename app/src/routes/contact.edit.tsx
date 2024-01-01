@@ -1,15 +1,31 @@
-//import React, { useState, useEffect } from "react";
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-//import type { ContactRecord } from "../data";
+import { getContact } from "../data";
 
 interface Props {
     id?: string;
 }
 
 export default function EditContact(props: Props) {
+    const [loading, setLoading] = useState(false);
+    const [contact, setContact] = useState({});
     const {id} = props;
-    const contact = {};
+
+    useEffect(() => {
+        setLoading(true);
+        const loadContact = async () => {
+            try {
+                const contact = await getContact(id);
+                setContact(contact);
+            } finally {
+                setLoading(false);
+            }
+        };
+        loadContact();
+    }, [id]);
+
+    if (loading) return (<div>Loading</div>);
+
     console.log("Edit", id);
     return (
         <form id="contact-form" method="post">
@@ -58,7 +74,7 @@ export default function EditContact(props: Props) {
             />
           </label>
           <p>
-            <button type="submit">Save</button>
+            <button type="submit">{id ? `Save` : `Create`}</button>
             <button type="button">Cancel</button>
           </p>
         </form>
