@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////////
-// 🛑 Nothing in here has anything to do with Remix, it's just a fake database
+// Crud methods that call the backend service
 ////////////////////////////////////////////////////////////////////////////////
 
 //import { matchSorter } from "match-sorter";
@@ -29,71 +29,25 @@ const HEADERS = {
 };
 
 ////////////////////////////////////////////////////////////////////////////////
-// This is just a fake DB table. In a real app you'd be talking to a real db or
-// fetching from an existing API.
-const fakeContacts = {
-  records: {} as Record<string, ContactRecord>,
-
-  async getAll(): Promise<ContactRecord[]> {
-    try {
-      const response = await fetch(`http://${serverHostPort}/contacts/`);
-      return await response.json();
-     } catch(error) {
-      console.error(error);
-      return [];
-    }
-  },
-
-  async get(id: string): Promise<ContactRecord | null> {
-    try {
-      const response = await fetch(`http://${serverHostPort}/contacts/${id}`);
-      return await response.json();
-     } catch(error) {
-      console.error(error);
-      return null;
-    }
-  },
-
-  async set(id: string, values: ContactMutation): Promise<ContactRecord> {
-    const contact = await fakeContacts.get(id);
-    invariant(contact, `No contact found for ${id}`);
-    const updatedContact = { ...contact, ...values };
-
-    const response = await fetch(`http://${serverHostPort}/contacts/${id}`, {
-      method: `PUT`,
-      headers: HEADERS,
-      body: JSON.stringify(updatedContact),
-    })
-    
-    return await response.json();
-  },
-
-  async create(contact: ContactMutation): Promise<ContactRecord> {
-    const response = await fetch(`http://${serverHostPort}/contacts/`, {
-      method: `POST`,
-      headers: HEADERS,
-      body: JSON.stringify(contact),
-    })
-    
-    return await response.json();
-  },
-
-  async destroy(id: string): Promise<null> {
-    try {
-      const response = await fetch(`http://${serverHostPort}/contacts/${id}`, { method: 'DELETE' });
-      return await response.json();
-     } catch(error) {
-      console.error(error);
-      return null;
-    }
-  },
-};
-
-////////////////////////////////////////////////////////////////////////////////
 // Handful of helper functions to be called from route loaders and actions
+
+function getServerUrl(path: string) {
+  return `http://${serverHostPort}${path}`
+}
+
+async function getAll(): Promise<ContactRecord[]> {
+  try {
+    const response = await fetch(getServerUrl('/contacts/'));
+    return await response.json();
+   } catch(error) {
+    console.error(error);
+    return [];
+  }
+}
+
 export async function getContacts(query?: string | null) {
   await new Promise((resolve) => setTimeout(resolve, 500));
-  const contacts = await fakeContacts.getAll();
+  const contacts = await getAll();
   if (query) {
     /*
     contacts = matchSorter(contacts, query, {
@@ -101,31 +55,56 @@ export async function getContacts(query?: string | null) {
     });
     */
   }
-  //return contacts.sort(sortBy("last", "createdAt"));
+  contacts.sort(function (a, b) {
+    return a.last.localeCompare(b.last) || a.first.localeCompare(b.first);
+  });
   return contacts;
 }
 
-export async function createEmptyContact() {
-  const contact = null; //await fakeContacts.create({});
-  return contact;
-}
-
-export async function getContact(id: string) {
-  return fakeContacts.get(id);
+export async function getContact(id: string): Promise<ContactRecord | null> {
+  try {
+    const response = await fetch(getServerUrl(`/contacts/${id}`));
+    return await response.json();
+   } catch(error) {
+    console.error(error);
+    return null;
+  }
 }
 
 export function getServerHostPort() {
   return serverHostPort;
 }
 
-export async function updateContact(id: string, updates: ContactMutation) {
-  return await fakeContacts.set(id, updates);
+export async function updateContact(id: string, values: ContactMutation): Promise<ContactRecord> {
+  const contact = await getContact(id);
+  invariant(contact, `No contact found for ${id}`);
+  const updatedContact = { ...contact, ...values };
+
+  const response = await fetch(getServerUrl(`/contacts/${id}`), {
+    method: `PUT`,
+    headers: HEADERS,
+    body: JSON.stringify(updatedContact),
+  })
+  
+  return await response.json();
 }
 
-export async function createContact(contact: ContactMutation) {
-  return await fakeContacts.create(contact);
+export async function createContact(contact: ContactMutation): Promise<ContactRecord> {
+  const response = await fetch(getServerUrl('/contacts/'), {
+    method: `POST`,
+    headers: HEADERS,
+    body: JSON.stringify(contact),
+  })
+  
+  return await response.json();
 }
 
 export async function deleteContact(id: string) {
-  fakeContacts.destroy(id);
+  try {
+    const response = await fetch(getServerUrl(`/contacts/${id}`), { method: 'DELETE' });
+    return await response.json();
+   } catch(error) {
+    console.error(error);
+    return null;
+  }
 }

@@ -6,17 +6,6 @@ import {
 import { getContacts } from "../data.ts";
 import Contact from './contact.tsx';
 
-const newContactId = "create";
-
-function showDetail(id) {
-    if (id === newContactId) {
-        return (<>New</>);
-    } else if (id) {
-        return (<Contact id={id}/>);
-    }
-    return (<></>);
-}
-
 export default function Contacts() {
     const [loading, setLoading] = useState(false);
     const [contacts, setContacts] = useState([]);
@@ -69,7 +58,7 @@ export default function Contacts() {
                     )}
                 </nav>
                 <div className="detail">
-                    {showDetail(id)}
+                    {id && <Contact id={id}/>}
                 </div>
             </div>
     );
