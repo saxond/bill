@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-//import { useHistory } from "react-router-dom";
+import {
+  Link
+} from 'react-router-dom';
 
 import { getContact, updateContact, createContact } from "../data";
 
@@ -11,6 +13,7 @@ interface Props {
 export default function EditContact(props: Props) {
   const [loading, setLoading] = useState(false);
   const [contact, setContact] = useState({});
+  const [updated, setUpdated] = useState(false);
   const { id } = props;
 
   useEffect(() => {
@@ -29,32 +32,26 @@ export default function EditContact(props: Props) {
   }, [id]);
 
   const onSubmit = async (e) => {
+    e.preventDefault();
     const data = Array.from(e.target.elements)
       .filter((input) => input.name)
       .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {});
 
     let contact;
-    if (id) {
-      contact = updateContact(id, data);
+    if (contact?.id) {
+      contact = await updateContact(id, data);
     } else {
-      contact = createContact(data);
+      contact = await createContact(data);
     }
     if (contact) {
-      //useNavigate(`/contacts/${contact.id}`)
-      
-      //useHistory(`/contacts/${contact.id}`);
-      console.log("Updated", contact, e.target.action);
-      debugger; // eslint-disable-line no-debugger
-      e.target.method = 'GET';
-      e.target.action = `/contacts/${contact.id}`;
-    } else {
-      e.preventDefault();
+      setContact(contact);
+      setUpdated(true);
     }
   };
 
   if (loading) return (<div>Loading</div>);
 
-  console.log("Edit", id);
+  console.log("Edit", id, updated);
   return (
     <form id="contact-form" method="post" onSubmit={onSubmit}>
       <p>
@@ -102,9 +99,10 @@ export default function EditContact(props: Props) {
         />
       </label>
       <p>
-        <button type="submit">{id ? `Save` : `Create`}</button>
+        <button type="submit">{contact?.id ? `Save` : `Create`}</button>
         <button type="button">Cancel</button>
       </p>
+      { updated && <Link to={`/contacts/${contact.id}`}>Updated</Link> }
     </form>
   );
 }
