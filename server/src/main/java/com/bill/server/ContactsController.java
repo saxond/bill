@@ -40,7 +40,7 @@ public class ContactsController {
         return contactRepository.findById(id).map(existing -> {
             contact.setId(id);
             return contactRepository.save(contact);
-        }).orElseGet(() -> create(contact));
+        }).orElseThrow();
     }
 
     @DeleteMapping("{id}")

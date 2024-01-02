@@ -37,21 +37,20 @@ export default function EditContact(props: Props) {
       .filter((input) => input.name)
       .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {});
 
-    let contact;
+    let updatedContact;
     if (contact?.id) {
-      contact = await updateContact(id, data);
+      updatedContact = await updateContact(contact?.id, data);
     } else {
-      contact = await createContact(data);
+      updatedContact = await createContact(data);
     }
-    if (contact) {
-      setContact(contact);
+    if (updatedContact) {
+      setContact(updatedContact);
       setUpdated(true);
     }
   };
 
   if (loading) return (<div>Loading</div>);
 
-  console.log("Edit", id, updated);
   return (
     <form id="contact-form" method="post" onSubmit={onSubmit}>
       <p>
