@@ -23,6 +23,10 @@ export type ContactRecord = ContactMutation & {
 };
 
 const serverHostPort = process.env.SERVER_PORT || "localhost:8080";
+const HEADERS = {
+  Accept: 'application/json',
+  'Content-Type': 'application/json',
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // This is just a fake DB table. In a real app you'd be talking to a real db or
@@ -54,8 +58,24 @@ const fakeContacts = {
     const contact = await fakeContacts.get(id);
     invariant(contact, `No contact found for ${id}`);
     const updatedContact = { ...contact, ...values };
-    fakeContacts.records[id] = updatedContact;
-    return updatedContact;
+
+    const response = await fetch(`http://${serverHostPort}/contacts/${id}`, {
+      method: `PUT`,
+      headers: HEADERS,
+      body: JSON.stringify(updatedContact),
+    })
+    
+    return await response.json();
+  },
+
+  async create(contact: ContactMutation): Promise<ContactRecord> {
+    const response = await fetch(`http://${serverHostPort}/contacts/`, {
+      method: `POST`,
+      headers: HEADERS,
+      body: JSON.stringify(contact),
+    })
+    
+    return await response.json();
   },
 
   async destroy(id: string): Promise<null> {
@@ -99,12 +119,11 @@ export function getServerHostPort() {
 }
 
 export async function updateContact(id: string, updates: ContactMutation) {
-  const contact = await fakeContacts.get(id);
-  if (!contact) {
-    throw new Error(`No contact found for ${id}`);
-  }
-  await fakeContacts.set(id, { ...contact, ...updates });
-  return contact;
+  return await fakeContacts.set(id, updates);
+}
+
+export async function createContact(contact: ContactMutation) {
+  return await fakeContacts.create(contact);
 }
 
 export async function deleteContact(id: string) {

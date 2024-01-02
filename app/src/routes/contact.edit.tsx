@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import { getContact, getServerHostPort } from "../data";
+//import { useHistory } from "react-router-dom";
+
+import { getContact, updateContact, createContact } from "../data";
 
 interface Props {
   id?: string;
@@ -12,56 +14,42 @@ export default function EditContact(props: Props) {
   const { id } = props;
 
   useEffect(() => {
-    setLoading(true);
-    const loadContact = async () => {
-      try {
-        const contact = await getContact(id);
-        setContact(contact);
-      } finally {
-        setLoading(false);
-      }
-    };
-    loadContact();
+    if (id) {
+      setLoading(true);
+      const loadContact = async () => {
+        try {
+          const contact = await getContact(id);
+          setContact(contact);
+        } finally {
+          setLoading(false);
+        }
+      };
+      loadContact();
+    }
   }, [id]);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-
+  const onSubmit = async (e) => {
     const data = Array.from(e.target.elements)
       .filter((input) => input.name)
       .reduce((obj, input) => Object.assign(obj, { [input.name]: input.value }), {});
 
-    console.log("Update", data);
-
-    const url = id ? `/contacts/${id}` : `/contacts`;
-    const fullUrl = `http://${getServerHostPort()}${url}`;
-    const method = id ? `PUT` : `POST`;
-    fetch(fullUrl, {
-      method: method,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(data),
-    })
-      .then((response) => {
-        if (response.status !== 200) {
-          throw new Error(response.statusText);
-        }
-
-        return response.json();
-      })
-      .then(() => {
-        //setMessage("We'll be in touch soon.");
-        //setStatus('success');
-      })
-      .catch((err) => {
-        console.log("Error", err);
-        //setMessage(err.toString());
-        //setStatus('error');
-      });
-
-    //this.setState({description: ''});
+    let contact;
+    if (id) {
+      contact = updateContact(id, data);
+    } else {
+      contact = createContact(data);
+    }
+    if (contact) {
+      //useNavigate(`/contacts/${contact.id}`)
+      
+      //useHistory(`/contacts/${contact.id}`);
+      console.log("Updated", contact, e.target.action);
+      debugger; // eslint-disable-line no-debugger
+      e.target.method = 'GET';
+      e.target.action = `/contacts/${contact.id}`;
+    } else {
+      e.preventDefault();
+    }
   };
 
   if (loading) return (<div>Loading</div>);
