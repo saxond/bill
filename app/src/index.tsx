@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { createRoot } from 'react-dom/client';
 import {
   BrowserRouter as Router,
@@ -19,13 +19,22 @@ const CLIENT_ID = "221336944887-mbva4chbrcusdl2gmk525jse6rudfv4q.apps.googleuser
 export default function App() {
   const [ credential, setCredential ] = useState([]);
 
+  useEffect(() => {
+    const cred = localStorage.getItem("credential");
+    if (cred) {
+      setCredential(cred);
+    }
+  });
+
   const logOut = () => {
     googleLogout();
     setCredential(null);
+    localStorage.removeItem("credential");
   };
 
   const onSuccess = (response) => {
     setCredential(response.credential);
+    localStorage.setItem("credential", response.credential);
   };
   const onError = (error) => {
     console.log(error);
