@@ -24,20 +24,37 @@ export default function App() {
     setCredential(null);
   };
 
-  if (credential) {
-    return (
-      <GoogleOAuthProvider clientId={CLIENT_ID}>
-        <Router>
-          <div className="flex-column app-frame">
-            <div className="flex-row align-center header container">
-              <Link to="/">Header</Link>
+  const onSuccess = (response) => {
+    setCredential(response.credential);
+  };
+  const onError = (error) => {
+    console.log(error);
+  };
+
+  const loggedIn = credential && credential.length > 0;
+
+  console.log("Cred", credential, loggedIn);
+  return (
+      <Router>
+        <div className="flex-column app-frame">
+          <div className="flex-row align-center header container">
+            <Link to="/">Header</Link>
+          </div>
+          <div className="flex flex-row app-main">
+            <div className="flex-column sidebar container">
+              {loggedIn &&
+                <>
+                  <Link to="/contacts">Contacts</Link>
+                  <button onClick={logOut}>Log out</button>
+                </>
+              }
             </div>
-            <div className="flex flex-row app-main">
-              <div className="flex-column sidebar container">
-                <Link to="/contacts">Contacts</Link>
-                <button onClick={logOut}>Log out</button>
-              </div>
-              <div className="app-body flex">
+            <div className="app-body flex">
+              {!loggedIn ?
+                <GoogleOAuthProvider clientId={CLIENT_ID}>
+                  <GoogleLogin onSuccess={onSuccess} onError={onError} />
+                </GoogleOAuthProvider>
+              :
                 <Switch>
                   <Route exact path="/" component={Home} />
                   <Route exact path="/contacts" component={Contacts} />
@@ -45,33 +62,14 @@ export default function App() {
                   <Route path="/contacts/update/:id" component={UpdateContact} />
                   <Route path="/contacts/:id" component={Contacts} />
                 </Switch>
-              </div>
+              }
             </div>
           </div>
-        </Router>
-      </GoogleOAuthProvider>
-    );
-  } else {
-    const responseMessage = (response) => {
-      setCredential(response.credential);
-    };
-    const errorMessage = (error) => {
-      console.log(error);
-    };
-    return (
-      <GoogleOAuthProvider clientId={CLIENT_ID}>
-        <div>
-          <h2>React Google Login</h2>
-          <br />
-          <br />
-          <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
         </div>
-      </GoogleOAuthProvider>
-    )
-  }
+      </Router>
+  );
 }
 
 const container = document.getElementById('app');
 const root = createRoot(container);
-
 root.render(<App />);
