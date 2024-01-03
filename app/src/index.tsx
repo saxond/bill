@@ -11,38 +11,40 @@ import Contacts from './routes/contacts.tsx';
 import UpdateContact from './routes/contact.update.tsx';
 import CreateContact from './routes/contact.create.tsx';
 
-import { GoogleLogin, GoogleOAuthProvider, googleLogout } from '@react-oauth/google';
+import { GoogleOAuthProvider, googleLogout, useGoogleLogin } from '@react-oauth/google';
 import './style.css';
 
 const CLIENT_ID = "221336944887-mbva4chbrcusdl2gmk525jse6rudfv4q.apps.googleusercontent.com";
 
 export default function App() {
-  const [ credential, setCredential ] = useState([]);
+  const [ user, setUser ] = useState([]);
 
   useEffect(() => {
-    const cred = localStorage.getItem("credential");
-    if (cred) {
-      setCredential(cred);
+    const u = localStorage.getItem("user");
+    if (u) {
+      setUser(JSON.parse(u));
     }
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem("user", JSON.stringify(user));
+      //debugger; // eslint-disable-line no-debugger
+    }
+  }, [ user ]);
+
+  const login = useGoogleLogin({
+      onSuccess: (codeResponse) => setUser(codeResponse),
+      onError: (error) => console.log('Login Failed:', error)
   });
 
   const logOut = () => {
     googleLogout();
-    setCredential(null);
-    localStorage.removeItem("credential");
+    setUser(null);
+    localStorage.removeItem("user");
   };
 
-  const onSuccess = (response) => {
-    setCredential(response.credential);
-    localStorage.setItem("credential", response.credential);
-  };
-  const onError = (error) => {
-    console.log(error);
-  };
-
-  const loggedIn = credential && credential.length > 0;
-
-  console.log("Cred", credential, loggedIn);
+  const loggedIn = user && user.length === undefined;
   return (
       <Router>
         <div className="flex-column app-frame">
@@ -59,10 +61,8 @@ export default function App() {
               }
             </div>
             <div className="app-body flex">
-              {!loggedIn ?
-                <GoogleOAuthProvider clientId={CLIENT_ID}>
-                  <GoogleLogin onSuccess={onSuccess} onError={onError} />
-                </GoogleOAuthProvider>
+              {!loggedIn ?                
+                <button onClick={() => login()}>Sign in with Google 🚀 </button>
               :
                 <Switch>
                   <Route exact path="/" component={Home} />
@@ -81,4 +81,7 @@ export default function App() {
 
 const container = document.getElementById('app');
 const root = createRoot(container);
-root.render(<App />);
+root.render(
+  <GoogleOAuthProvider clientId={CLIENT_ID}>
+    <App/>
+  </GoogleOAuthProvider>);
