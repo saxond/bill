@@ -6,6 +6,7 @@ import {
   Switch,
   Link
 } from 'react-router-dom';
+import { setUser as setUserInLocal, getUser, removeUser } from "./user.ts";
 import Home from './routes/home.tsx';
 import Contacts from './routes/contacts.tsx';
 import UpdateContact from './routes/contact.update.tsx';
@@ -20,15 +21,17 @@ export default function App() {
   const [ user, setUser ] = useState([]);
 
   useEffect(() => {
-    const u = localStorage.getItem("user");
+    // get from local storage
+    const u = getUser();
     if (u) {
-      setUser(JSON.parse(u));
+      // set user state
+      setUser(u);
     }
   }, []);
 
   useEffect(() => {
     if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
+      setUserInLocal(user);
       //debugger; // eslint-disable-line no-debugger
     }
   }, [ user ]);
@@ -41,7 +44,7 @@ export default function App() {
   const logOut = () => {
     googleLogout();
     setUser(null);
-    localStorage.removeItem("user");
+    removeUser();
   };
 
   const loggedIn = user && user.length === undefined;
