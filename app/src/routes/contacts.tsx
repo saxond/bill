@@ -28,9 +28,7 @@ export default function Contacts() {
 
     return (
             <div className="flex-row">
-                <form action="/contacts/create">
-                    <button>New</button>
-                </form>
+                <Link to="/contacts/create"><button>New</button></Link>
                 <nav>
                     {contacts?.length ? (
                         <ul>

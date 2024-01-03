@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import {
+    Link
+  } from 'react-router-dom';
 import { getContact } from "../data.ts";
-
 
 interface Props {
     id: string;
@@ -28,9 +30,7 @@ export default function Contact(props: Props) {
     return (
         <div id="contact">
             <div>
-            <form action={`/contacts/update/${id}`}>
-                <button>Edit</button>
-            </form>
+            <Link to={`/contacts/update/${id}`}><button>Edit</button></Link>
             <img
                 alt={`${contact.first} ${contact.last} avatar`}
                 key={contact.avatar}
