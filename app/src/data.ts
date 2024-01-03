@@ -6,6 +6,7 @@
 // @@ts-expect-error - no types, but it's a tiny function
 //import sortBy from "sort-by";
 import invariant from "tiny-invariant";
+import { getUser } from "./user";
 
 type ContactMutation = {
   id?: string;
@@ -35,9 +36,16 @@ function getServerUrl(path: string) {
   return `http://${serverHostPort}${path}`
 }
 
+function getHeaders() {
+  const user = getUser();
+  return {...HEADERS, 'Access-Token': user?.access_token};
+}
+
 async function getAll(): Promise<ContactRecord[]> {
   try {
-    const response = await fetch(getServerUrl('/contacts/'));
+    const response = await fetch(getServerUrl('/contacts/'), {
+      headers: getHeaders()
+    });
     return await response.json();
    } catch(error) {
     console.error(error);
@@ -63,7 +71,10 @@ export async function getContacts(query?: string | null) {
 
 export async function getContact(id: string): Promise<ContactRecord | null> {
   try {
-    const response = await fetch(getServerUrl(`/contacts/${id}`));
+    const response = await fetch(getServerUrl(`/contacts/${id}`), {
+      method: `GET`,
+      headers: getHeaders(),
+    });
     return await response.json();
    } catch(error) {
     console.error(error);
@@ -82,7 +93,7 @@ export async function updateContact(id: string, values: ContactMutation): Promis
 
   const response = await fetch(getServerUrl(`/contacts/${id}`), {
     method: `PUT`,
-    headers: HEADERS,
+    headers: getHeaders(),
     body: JSON.stringify(updatedContact),
   })
   
@@ -92,16 +103,19 @@ export async function updateContact(id: string, values: ContactMutation): Promis
 export async function createContact(contact: ContactMutation): Promise<ContactRecord> {
   const response = await fetch(getServerUrl('/contacts/'), {
     method: `POST`,
-    headers: HEADERS,
+    headers: getHeaders(),
     body: JSON.stringify(contact),
-  })
+  });
   
   return await response.json();
 }
 
 export async function deleteContact(id: string) {
   try {
-    const response = await fetch(getServerUrl(`/contacts/${id}`), { method: 'DELETE' });
+    const response = await fetch(getServerUrl(`/contacts/${id}`), 
+    { method: 'DELETE',
+      headers: getHeaders()
+    });
     return await response.json();
    } catch(error) {
     console.error(error);

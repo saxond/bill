@@ -18,6 +18,7 @@ repositories {
 }
 
 dependencies {
+	implementation("com.google.apis:google-api-services-oauth2:v2-rev157-1.25.0")
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	runtimeOnly("com.mysql:mysql-connector-j")

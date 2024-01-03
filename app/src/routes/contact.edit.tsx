@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 
 import { getContact, updateContact, createContact } from "../data";
+import { getUser } from "../user";
 
 interface Props {
   id?: string;
@@ -15,6 +16,8 @@ export default function EditContact(props: Props) {
   const [contact, setContact] = useState({});
   const [updated, setUpdated] = useState(false);
   const { id } = props;
+  const user = getUser();
+  console.log("Edit", user);
 
   useEffect(() => {
     if (id) {
