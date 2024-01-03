@@ -59,22 +59,19 @@ export default function App() {
               }
             </div>
             <div className="app-body flex">
-              {!loggedIn &&
+              {!loggedIn ?
                 <GoogleOAuthProvider clientId={CLIENT_ID}>
                   <GoogleLogin onSuccess={onSuccess} onError={onError} />
                 </GoogleOAuthProvider>
+              :
+                <Switch>
+                  <Route exact path="/" component={Home} />
+                  <Route exact path="/contacts" component={Contacts} />
+                  <Route exact path="/contacts/create" component={CreateContact} />
+                  <Route path="/contacts/update/:id" component={UpdateContact} />
+                  <Route path="/contacts/:id" component={Contacts} />
+                </Switch>
               }
-              <Switch>
-                <Route exact path="/" component={Home} />
-                {loggedIn &&
-                  <>
-                    <Route exact path="/contacts" component={Contacts} />
-                    <Route exact path="/contacts/create" component={CreateContact} />
-                    <Route path="/contacts/update/:id" component={UpdateContact} />
-                    <Route path="/contacts/:id" component={Contacts} />
-                  </>
-                }
-              </Switch>
             </div>
           </div>
         </div>
