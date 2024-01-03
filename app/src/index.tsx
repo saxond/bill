@@ -56,15 +56,15 @@ export default function App() {
       setCredential(response.credential);
     };
     const errorMessage = (error) => {
-        console.log(error);
+      console.log(error);
     };
     return (
       <GoogleOAuthProvider clientId={CLIENT_ID}>
         <div>
-            <h2>React Google Login</h2>
-            <br />
-            <br />
-            <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
+          <h2>React Google Login</h2>
+          <br />
+          <br />
+          <GoogleLogin onSuccess={responseMessage} onError={errorMessage} />
         </div>
       </GoogleOAuthProvider>
     )
