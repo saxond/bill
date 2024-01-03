@@ -63,3 +63,5 @@ A github action is set up to run `./gradlew build` with each commit.  That assem
 ## TODO
 
 https://github.com/remix-run/remix/issues/806
+
+https://blog.logrocket.com/guide-adding-google-login-react-app/
