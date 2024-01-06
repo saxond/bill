@@ -54,6 +54,13 @@ From the root directory:
 
     ./gradlew run
 
+### Accessing the database
+
+In Docker Desktop, click the db container and navigate to the `Exec` tab.
+
+    # mysql -p
+    mysql> use db
+
 ## Testing
 
 The java tests are split between unit and integration tests.  The unit tests use an H2 embedded Database in MySQL mode, while the integration tests use the actual MySQL database that runs in a docker container (`docker compose up db`).
