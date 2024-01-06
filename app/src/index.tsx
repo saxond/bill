@@ -11,6 +11,8 @@ import Home from './routes/home.tsx';
 import Contacts from './routes/contacts.tsx';
 import UpdateContact from './routes/contact.update.tsx';
 import CreateContact from './routes/contact.create.tsx';
+import { fetchUser } from "./data.ts";
+import type ResolvedUser from "./user.ts";
 
 import { GoogleOAuthProvider, googleLogout, useGoogleLogin } from '@react-oauth/google';
 import './style.css';
@@ -18,7 +20,7 @@ import './style.css';
 const CLIENT_ID = "221336944887-mbva4chbrcusdl2gmk525jse6rudfv4q.apps.googleusercontent.com";
 
 export default function App() {
-  const [ user, setUser ] = useState([]);
+  const [ user, setUser ] = useState(null);
 
   useEffect(() => {
     // get from local storage
@@ -31,7 +33,19 @@ export default function App() {
 
   useEffect(() => {
     if (user) {
-      setUserInLocal(user);
+      fetchUser(user["access_token"]).then((u: ResolvedUser) => {
+        console.log("Remote", u);
+        if (u.valid) {
+          setUserInLocal(user);
+        } else {
+          console.log("FIXME: display that user is not valid", user);
+          // grimace
+          setUser(null);
+        }
+      }).catch((e) => {
+        console.log(e);
+      });
+      
       //debugger; // eslint-disable-line no-debugger
     }
   }, [ user ]);

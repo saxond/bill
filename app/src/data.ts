@@ -7,6 +7,7 @@
 //import sortBy from "sort-by";
 import invariant from "tiny-invariant";
 import { getUser } from "./user";
+import type ResolvedUser from "./user";
 
 type ContactMutation = {
   id?: string;
@@ -115,6 +116,19 @@ export async function deleteContact(id: string) {
     const response = await fetch(getServerUrl(`/contacts/${id}`), 
     { method: 'DELETE',
       headers: getHeaders()
+    });
+    return await response.json();
+   } catch(error) {
+    console.error(error);
+    return null;
+  }
+}
+
+export async function fetchUser(accessToken: string): Promise<ResolvedUser | null> {
+  try {
+    const response = await fetch(getServerUrl(`/users/me`), {
+      method: `GET`,
+      headers:  {'Access-Token': accessToken},
     });
     return await response.json();
    } catch(error) {
