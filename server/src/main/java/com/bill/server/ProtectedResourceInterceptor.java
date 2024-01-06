@@ -2,6 +2,8 @@ package com.bill.server;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.util.logging.Level;
@@ -13,12 +15,12 @@ public class ProtectedResourceInterceptor extends PostCorsInterceptor {
 
     @Override
     public boolean preHandleNonCors(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        final User user = (User) request.getAttribute(AuthenticationInterceptor.USER_KEY);
-        if (user != null) {
-            if (user.isEnabled()) {
+        var principal = AuthenticatedUser.getUserPrincipal(request);
+        if (principal.isPresent()) {
+            if (principal.get().isAuthenticated()) {
                 return true;
             }
-            LOGGER.log(Level.INFO, "Unauthorized user " + user.getEmail());
+            LOGGER.log(Level.INFO, "Unauthorized user " + principal);
         } else {
             LOGGER.log(Level.INFO, "Unauthenticated user");
         }

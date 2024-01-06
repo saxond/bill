@@ -8,22 +8,30 @@ import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+import org.apache.catalina.connector.Request;
+import org.apache.catalina.connector.RequestFacade;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Optional;
+import java.util.function.BiConsumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.StreamSupport;
 
+import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
+
 @Component
 @Order(1)
 public class AuthenticationInterceptor extends PostCorsInterceptor {
-    static final String USER_INFO_KEY = "USER_INFO";
-    static final String USER_KEY = "USER";
-    private final Logger LOGGER = Logger.getLogger(AuthenticationInterceptor.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AuthenticationInterceptor.class.getName());
     private final UserRepository userRepository;
+    static final BiConsumer<HttpServletRequest, Authentication> PRINCIPAL_SETTER = createPrincipalSetter();
 
     public AuthenticationInterceptor(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -31,6 +39,7 @@ public class AuthenticationInterceptor extends PostCorsInterceptor {
 
     @Override
     boolean preHandleNonCors(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        LOGGER.info(request::getRequestURI);
         final String accessToken = request.getHeader("access-token");
         if (accessToken == null) {
             final Iterable<String> headers = () -> request.getHeaderNames().asIterator();
@@ -43,17 +52,16 @@ public class AuthenticationInterceptor extends PostCorsInterceptor {
 
             try {
                 final Userinfo userinfo = oauth2.userinfo().get().execute();
-                request.setAttribute(USER_INFO_KEY, userinfo);
                 LOGGER.log(Level.INFO, "Authenticated {0}", userinfo.getEmail());
 
                 final Optional<User> user = userRepository.findById(userinfo.getEmail());
                 if (user.isPresent()) {
-                    request.setAttribute(USER_KEY, user.get());
+                    setAuthentication(request, user.get().asAuthentication());
                 } else {
                     User newUser = User.from(userinfo);
                     userRepository.save(newUser);
                     LOGGER.log(Level.INFO, "Create user record for {0}", userinfo.getEmail());
-                    request.setAttribute(USER_KEY, newUser);
+                    setAuthentication(request, newUser.asAuthentication());
                 }
 
             } catch (GoogleJsonResponseException e) {
@@ -63,5 +71,34 @@ public class AuthenticationInterceptor extends PostCorsInterceptor {
             }
         }
         return true;
+    }
+
+    private static void setAuthentication(HttpServletRequest request, Authentication authentication) {
+        final SecurityContext securityContext = SecurityContextHolder.getContext();
+        securityContext.setAuthentication(authentication);
+        PRINCIPAL_SETTER.accept(request, authentication);
+
+        HttpSession session = request.getSession(true);
+        // internet suggested this, it does not appear to do shit
+        session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, securityContext);
+    }
+
+    private static BiConsumer<HttpServletRequest, Authentication> createPrincipalSetter() {
+        try {
+            final var field = RequestFacade.class.getDeclaredField("request");
+            field.setAccessible(true);
+            return (request, authentication) -> {
+                try {
+                    final Request req = (Request) field.get(request);
+                    req.setUserPrincipal(authentication);
+                } catch (IllegalAccessException e) {
+                    LOGGER.log(Level.SEVERE, e.getMessage());
+                }
+            };
+        } catch (NoSuchFieldException e) {
+            LOGGER.log(Level.SEVERE, e.getMessage());
+            // SAD no op
+            return (r,p) -> { };
+        }
     }
 }

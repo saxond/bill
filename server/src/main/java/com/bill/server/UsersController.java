@@ -1,6 +1,5 @@
 package com.bill.server;
 
-import com.google.api.services.oauth2.model.Userinfo;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,8 +21,8 @@ public class UsersController {
 
     @GetMapping("/me")
     public User.SafeUser get(HttpServletRequest request) {
-        final Optional<Userinfo> userinfo = Optional
-                .ofNullable((Userinfo) request.getAttribute(AuthenticationInterceptor.USER_INFO_KEY));
-        return userinfo.flatMap(u -> userRepository.findById(u.getEmail()).map(User::safe)).orElseThrow();
+        final Optional<User> user = AuthenticatedUser.getUserPrincipal(request)
+                .map(AuthenticatedUser::getUser);
+        return user.map(User::safe).orElseThrow();
     }
 }

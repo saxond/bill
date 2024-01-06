@@ -4,6 +4,11 @@ import com.google.api.services.oauth2.model.Userinfo;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -107,6 +112,45 @@ public class User {
 
     public SafeUser safe() {
         return new SafeUser(name, enabled);
+    }
+
+    public Authentication asAuthentication() {
+        return new AuthenticatedUser() {
+
+            @Override
+            public String getName() {
+                return name;
+            }
+
+            @Override
+            public Collection<? extends GrantedAuthority> getAuthorities() {
+                return List.of();
+            }
+
+            @Override
+            public Object getCredentials() {
+                return null;
+            }
+
+            @Override
+            public Object getDetails() {
+                return null;
+            }
+
+            @Override
+            public Object getPrincipal() {
+                return User.this;
+            }
+
+            @Override
+            public boolean isAuthenticated() {
+                return enabled;
+            }
+
+            @Override
+            public void setAuthenticated(boolean isAuthenticated) throws IllegalArgumentException {
+            }
+        };
     }
 
     public record SafeUser(String name, boolean valid) {

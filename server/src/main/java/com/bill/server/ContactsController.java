@@ -4,6 +4,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.StreamSupport;
 
 @RequestMapping(value = "/contacts", produces = "application/json")
@@ -19,13 +21,11 @@ public class ContactsController {
 
     @GetMapping("/")
     public List<Contact> index() {
-        System.err.println("Getall");
         return StreamSupport.stream(contactRepository.findAll().spliterator(), false).toList();
     }
 
     @GetMapping("{id}")
     public Contact get(@PathVariable String id) {
-        System.err.println("Get " + id);
         return contactRepository.findById(id).orElseThrow();
     }
 
@@ -45,7 +45,6 @@ public class ContactsController {
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable String id) {
-        System.err.println("Delete " + id);
         contactRepository.deleteById(id);
     }
 }
