@@ -31,11 +31,6 @@ public class AuthenticationInterceptor extends PostCorsInterceptor {
 
     @Override
     boolean preHandleNonCors(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        final String accessControlRequestMethod = request.getHeader("access-control-request-method");
-        if (accessControlRequestMethod != null) {
-            return true;
-        }
-        var principal = request.getUserPrincipal();
         final String accessToken = request.getHeader("access-token");
         if (accessToken == null) {
             final Iterable<String> headers = () -> request.getHeaderNames().asIterator();
