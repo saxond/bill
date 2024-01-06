@@ -21,8 +21,7 @@ public class UsersController {
 
     @GetMapping("/me")
     public User.SafeUser get(HttpServletRequest request) {
-        final Optional<User> user = AuthenticatedUser.getUserPrincipal(request)
-                .map(AuthenticatedUser::getUser);
+        final Optional<User> user = AuthenticatedUser.getUserPrincipal(request).map(AuthenticatedUser::getUser);
         return user.map(User::safe).orElseThrow();
     }
 }

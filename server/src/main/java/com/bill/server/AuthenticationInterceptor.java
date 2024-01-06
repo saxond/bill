@@ -8,7 +8,6 @@ import com.google.api.services.oauth2.Oauth2;
 import com.google.api.services.oauth2.model.Userinfo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.RequestFacade;
 import org.springframework.core.annotation.Order;
@@ -23,8 +22,6 @@ import java.util.function.BiConsumer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.StreamSupport;
-
-import static org.springframework.security.web.context.HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY;
 
 @Component
 @Order(1)
@@ -77,10 +74,6 @@ public class AuthenticationInterceptor extends PostCorsInterceptor {
         final SecurityContext securityContext = SecurityContextHolder.getContext();
         securityContext.setAuthentication(authentication);
         PRINCIPAL_SETTER.accept(request, authentication);
-
-        HttpSession session = request.getSession(true);
-        // internet suggested this, it does not appear to do shit
-        session.setAttribute(SPRING_SECURITY_CONTEXT_KEY, securityContext);
     }
 
     private static BiConsumer<HttpServletRequest, Authentication> createPrincipalSetter() {
@@ -98,7 +91,8 @@ public class AuthenticationInterceptor extends PostCorsInterceptor {
         } catch (NoSuchFieldException e) {
             LOGGER.log(Level.SEVERE, e.getMessage());
             // SAD no op
-            return (r,p) -> { };
+            return (r, p) -> {
+            };
         }
     }
 }
