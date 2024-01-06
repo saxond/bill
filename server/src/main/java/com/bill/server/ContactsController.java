@@ -4,8 +4,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.stream.StreamSupport;
 
 @RequestMapping(value = "/contacts", produces = "application/json")

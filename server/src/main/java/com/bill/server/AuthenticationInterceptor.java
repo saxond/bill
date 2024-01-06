@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.catalina.connector.Request;
 import org.apache.catalina.connector.RequestFacade;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,7 +23,6 @@ import java.util.logging.Logger;
 import java.util.stream.StreamSupport;
 
 @Component
-@Order(1)
 public class AuthenticationInterceptor extends PostCorsInterceptor {
     private static final Logger LOGGER = Logger.getLogger(AuthenticationInterceptor.class.getName());
     private final UserRepository userRepository;
