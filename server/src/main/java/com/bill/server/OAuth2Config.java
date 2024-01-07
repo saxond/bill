@@ -22,26 +22,18 @@ public class OAuth2Config {
 
     @Bean
     public ClientRegistrationRepository clientRegistrationRepository() {
-        return new InMemoryClientRegistrationRepository(List.of(
-                getGoogleClientRegistration()
-        ));
+        return new InMemoryClientRegistrationRepository(List.of(getGoogleClientRegistration()));
     }
 
     private ClientRegistration getGoogleClientRegistration() {
-        return ClientRegistration.withRegistrationId("google")
-                .clientId(googleClientId)
-                .clientSecret(googleClientSecret)
+        return ClientRegistration.withRegistrationId("google").clientId(googleClientId).clientSecret(googleClientSecret)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}")
-                .scope("profile", "email") // "openid"
+                .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}").scope("profile", "email") // "openid"
                 .authorizationUri("https://accounts.google.com/o/oauth2/auth")
                 .tokenUri("https://www.googleapis.com/oauth2/v3/token")
-                .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo")
-                .issuerUri("https://www.googleapis.com")
-                //.jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
-                .userNameAttributeName(IdTokenClaimNames.SUB)
-                .clientName("Google")
-                .build();
+                .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo").issuerUri("https://www.googleapis.com")
+                // .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
+                .userNameAttributeName(IdTokenClaimNames.SUB).clientName("Google").build();
     }
 }

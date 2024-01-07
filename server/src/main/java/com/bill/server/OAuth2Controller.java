@@ -19,12 +19,12 @@ public class OAuth2Controller {
     @GetMapping("{provider}")
     public RedirectView loginSuccess(@PathVariable String provider, OAuth2AuthenticationToken authenticationToken) {
         OAuth2AuthorizedClient client = clientService.loadAuthorizedClient(
-                authenticationToken.getAuthorizedClientRegistrationId(),
-                authenticationToken.getName()
-        );
+                authenticationToken.getAuthorizedClientRegistrationId(), authenticationToken.getName());
 
-        // Handle storing the user information and token, then redirect to a successful login page
-        // For example, store user details in your database and generate a JWT token for further authentication.
+        // Handle storing the user information and token, then redirect to a successful
+        // login page
+        // For example, store user details in your database and generate a JWT token for
+        // further authentication.
 
         return new RedirectView("/login-success");
     }
