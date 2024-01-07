@@ -6,12 +6,13 @@ import {
   Switch,
   Link
 } from 'react-router-dom';
+import axios from 'axios';
 import { setUser as setUserInLocal, getUser, removeUser } from "./user.ts";
 import Home from './routes/home.tsx';
 import Contacts from './routes/contacts.tsx';
 import UpdateContact from './routes/contact.update.tsx';
 import CreateContact from './routes/contact.create.tsx';
-import { fetchUser } from "./data.ts";
+import { fetchUser, getServerUrl } from "./data.ts";
 import type ResolvedUser from "./user.ts";
 
 import { GoogleOAuthProvider, googleLogout, useGoogleLogin } from '@react-oauth/google';
@@ -61,7 +62,43 @@ export default function App() {
     removeUser();
   };
 
-  const loggedIn = user && user.length === undefined;
+  const handleGoogleLogin = async () => {
+    // Make a request to the backend server to initiate the Google OAuth2 flow
+    //debugger; // eslint-disable-line no-debugger
+    try {
+      /*const response = await fetch(getServerUrl('/auth/google'), {
+        mode: 'no-cors',
+        redirect: 'follow',
+      });*/
+      axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+      const response = await axios.get(getServerUrl('/auth/google'), {
+        //mode: 'no-cors',
+      });
+      debugger; // eslint-disable-line no-debugger
+      console.log(response);
+      //window.location.href = response.data.redirectUrl;
+    } catch (e) {
+      console.log(e);
+    }
+
+    /*
+    fetch(getServerUrl('/auth/google'), {
+      headers: {'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',},
+      redirect: 'follow',
+    }).then(response => {
+      debugger; // eslint-disable-line no-debugger
+      console.log("dude", response);
+      //window.location.href = response.data.redirectUrl;  
+    }).catch(error => {
+      debugger; // eslint-disable-line no-debugger
+      console.error('Error initiating Google login:', error);
+      console.log(error);
+    });
+    */
+  };
+
+  const loggedIn = true; //user && user.length === undefined;
   return (
       <Router>
         <div className="flex-column app-frame">
@@ -78,6 +115,7 @@ export default function App() {
               }
             </div>
             <div className="app-body flex">
+              <button onClick={handleGoogleLogin}>Login with Google</button>
               {!loggedIn ?                
                 <button onClick={() => login()}>Sign in with Google 🚀 </button>
               :
