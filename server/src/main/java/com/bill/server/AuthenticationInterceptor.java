@@ -1,5 +1,7 @@
 package com.bill.server;
 
+import com.bill.server.users.User;
+import com.bill.server.users.UserRepository;
 import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.googleapis.json.GoogleJsonResponseException;
 import com.google.api.client.http.javanet.NetHttpTransport;

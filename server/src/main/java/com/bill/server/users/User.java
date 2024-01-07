@@ -1,4 +1,4 @@
-package com.bill.server;
+package com.bill.server.users;
 
 import com.google.api.services.oauth2.model.Userinfo;
 import jakarta.persistence.Entity;

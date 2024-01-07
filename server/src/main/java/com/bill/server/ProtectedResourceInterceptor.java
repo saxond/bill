@@ -1,5 +1,6 @@
 package com.bill.server;
 
+import com.bill.server.users.AuthenticatedUser;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
