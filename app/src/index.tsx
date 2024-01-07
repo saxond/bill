@@ -13,7 +13,7 @@ import Contacts from './routes/contacts.tsx';
 import UpdateContact from './routes/contact.update.tsx';
 import CreateContact from './routes/contact.create.tsx';
 import { fetchUser, getServerUrl } from "./data.ts";
-import type ResolvedUser from "./user.ts";
+import type { ResolvedUser, User } from "./user.ts";
 
 import { GoogleOAuthProvider, googleLogout, useGoogleLogin } from '@react-oauth/google';
 import './style.css';
@@ -21,7 +21,8 @@ import './style.css';
 const CLIENT_ID = "221336944887-mbva4chbrcusdl2gmk525jse6rudfv4q.apps.googleusercontent.com";
 
 export default function App() {
-  const [ user, setUser ] = useState(null);
+  const [ user, setUser ] = useState<User>(null);
+  const [ remoteUser, setRemoteUser ] = useState<ResolvedUser>(null);
 
   useEffect(() => {
     // get from local storage
@@ -35,13 +36,9 @@ export default function App() {
   useEffect(() => {
     if (user) {
       fetchUser(user["access_token"]).then((u: ResolvedUser) => {
-        console.log("Remote", u);
+        setRemoteUser(u);
         if (u.valid) {
           setUserInLocal(user);
-        } else {
-          console.log("FIXME: display that user is not valid", user);
-          // grimace
-          setUser(null);
         }
       }).catch((e) => {
         console.log(e);
@@ -59,6 +56,7 @@ export default function App() {
   const logOut = () => {
     googleLogout();
     setUser(null);
+    setRemoteUser(null);
     removeUser();
   };
 
@@ -99,6 +97,8 @@ export default function App() {
   };
 
   const loggedIn = true; //user && user.length === undefined;
+//  const loggedIn = remoteUser && remoteUser.valid;
+
   return (
       <Router>
         <div className="flex-column app-frame">
@@ -128,6 +128,8 @@ export default function App() {
                 </Switch>
               }
             </div>
+            {remoteUser && !remoteUser.valid &&
+                <div>You are not authorized to use this site.  Contact the administrator</div>}
           </div>
         </div>
       </Router>

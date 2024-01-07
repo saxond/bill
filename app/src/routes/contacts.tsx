@@ -5,10 +5,11 @@ import {
 } from 'react-router-dom';
 import { getContacts } from "../data.ts";
 import Contact from './contact.tsx';
+import type { ContactRecord } from "../data.ts";
 
 export default function Contacts() {
     const [loading, setLoading] = useState(false);
-    const [contacts, setContacts] = useState([]);
+    const [contacts, setContacts] = useState<ContactRecord[]>([]);
 
     const { id } = useParams();
 
