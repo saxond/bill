@@ -1,4 +1,4 @@
-package com.bill.server;
+package com.bill.server.users;
 
 import org.springframework.data.repository.CrudRepository;
 

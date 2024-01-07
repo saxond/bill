@@ -1,5 +1,7 @@
-package com.bill.server;
+package com.bill.server.contacts;
 
+import com.bill.server.contacts.Contact;
+import com.bill.server.contacts.ContactsController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

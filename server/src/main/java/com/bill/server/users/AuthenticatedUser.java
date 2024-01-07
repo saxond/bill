@@ -1,4 +1,4 @@
-package com.bill.server;
+package com.bill.server.users;
 
 import com.bill.server.users.User;
 import jakarta.servlet.http.HttpServletRequest;

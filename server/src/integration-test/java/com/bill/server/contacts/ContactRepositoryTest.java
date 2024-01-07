@@ -1,5 +1,6 @@
-package com.bill.server;
+package com.bill.server.contacts;
 
+import com.bill.server.contacts.ContactRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
