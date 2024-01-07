@@ -5,6 +5,7 @@ import {
 } from 'react-router-dom';
 
 import { getContact, updateContact, createContact } from "../data";
+import type { ContactRecord } from "../data";
 import { getUser } from "../user";
 
 interface Props {
@@ -13,7 +14,7 @@ interface Props {
 
 export default function EditContact(props: Props) {
   const [loading, setLoading] = useState(false);
-  const [contact, setContact] = useState({});
+  const [contact, setContact] = useState<ContactRecord>({});
   const [updated, setUpdated] = useState(false);
   const { id } = props;
   const user = getUser();

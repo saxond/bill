@@ -3,6 +3,7 @@ import {
     Link
   } from 'react-router-dom';
 import { getContact } from "../data.ts";
+import type { ContactRecord } from "../data.ts";
 
 interface Props {
     id: string;
@@ -10,7 +11,7 @@ interface Props {
 
 export default function Contact(props: Props) {
     const [loading, setLoading] = useState(false);
-    const [contact, setContact] = useState(null);
+    const [contact, setContact] = useState<ContactRecord>(null);
     const {id} = props;
 
     useEffect(() => {
