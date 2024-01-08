@@ -3,6 +3,7 @@ package com.bill.server;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.oauth2.client.CommonOAuth2Provider;
 import org.springframework.security.oauth2.client.registration.ClientRegistration;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
@@ -26,14 +27,20 @@ public class OAuth2Config {
     }
 
     private ClientRegistration getGoogleClientRegistration() {
+        /*
         return ClientRegistration.withRegistrationId("google").clientId(googleClientId).clientSecret(googleClientSecret)
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}").scope("profile", "email") // "openid"
+                .redirectUri("{baseUrl}/login/oauth2/code/{registrationId}").scope("openid", "profile", "email", "address", "phone")
                 .authorizationUri("https://accounts.google.com/o/oauth2/auth")
-                .tokenUri("https://www.googleapis.com/oauth2/v3/token")
+                .tokenUri("https://www.googleapis.com/oauth2/v4/token")
                 .userInfoUri("https://www.googleapis.com/oauth2/v3/userinfo").issuerUri("https://www.googleapis.com")
-                // .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
-                .userNameAttributeName(IdTokenClaimNames.SUB).clientName("Google").build();
+                .jwkSetUri("https://www.googleapis.com/oauth2/v3/certs")
+                .userNameAttributeName(IdTokenClaimNames.SUB).clientName("Google").build();*/
+
+         return CommonOAuth2Provider.GOOGLE.getBuilder("google")
+                .clientId(googleClientId)
+                 .clientSecret(googleClientSecret)
+                 .build();
     }
 }

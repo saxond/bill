@@ -8,7 +8,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 @RestController
 @CrossOrigin
-@RequestMapping(value = "/login/oauth2/code")
+//@RequestMapping(value = "/login/oauth2/code")
 public class OAuth2Controller {
     private final OAuth2AuthorizedClientService clientService;
 
@@ -16,7 +16,8 @@ public class OAuth2Controller {
         this.clientService = clientService;
     }
 
-    @GetMapping("{provider}")
+    //@GetMapping("{provider}")
+    @GetMapping("/login/oauth2/code/{provider}")
     public RedirectView loginSuccess(@PathVariable String provider, OAuth2AuthenticationToken authenticationToken) {
         OAuth2AuthorizedClient client = clientService.loadAuthorizedClient(
                 authenticationToken.getAuthorizedClientRegistrationId(), authenticationToken.getName());

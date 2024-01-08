@@ -6,7 +6,7 @@ import {
   Switch,
   Link
 } from 'react-router-dom';
-import axios from 'axios';
+//import axios from 'axios';
 import { setUser as setUserInLocal, getUser, removeUser } from "./user.ts";
 import Home from './routes/home.tsx';
 import Contacts from './routes/contacts.tsx';
@@ -14,6 +14,7 @@ import UpdateContact from './routes/contact.update.tsx';
 import CreateContact from './routes/contact.create.tsx';
 import { fetchUser, getServerUrl } from "./data.ts";
 import type { ResolvedUser, User } from "./user.ts";
+import OAuth2RedirectHandler from "./oauth2/OAuth2RedirectHandler.js";
 
 import { GoogleOAuthProvider, googleLogout, useGoogleLogin } from '@react-oauth/google';
 import './style.css';
@@ -60,18 +61,28 @@ export default function App() {
     removeUser();
   };
 
+  //const OAUTH2_REDIRECT_URI = 'http://localhost:3000/oauth2/redirect'
+  const GOOGLE_AUTH_URL = getServerUrl('/oauth2/authorization/google'); //?redirect_uri=' + OAUTH2_REDIRECT_URI);
+
   const handleGoogleLogin = async () => {
     // Make a request to the backend server to initiate the Google OAuth2 flow
     //debugger; // eslint-disable-line no-debugger
     try {
-      /*const response = await fetch(getServerUrl('/auth/google'), {
+      const response = await fetch(GOOGLE_AUTH_URL, {
         mode: 'no-cors',
         redirect: 'follow',
-      });*/
-      axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
-      const response = await axios.get(getServerUrl('/auth/google'), {
-        //mode: 'no-cors',
+        credentials: 'include',
+        //credentials: 'same-origin',
+        /*
+        headers: {
+          'Access-Control-Allow-Origin':'*',
+          'Access-Control-Allow-Credentials':'true',
+        }*/
       });
+      //axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+      //const response = await axios.get(getServerUrl('/auth/google'), {
+        //mode: 'no-cors',
+      //});
       debugger; // eslint-disable-line no-debugger
       console.log(response);
       //window.location.href = response.data.redirectUrl;
@@ -120,6 +131,7 @@ export default function App() {
                 <button onClick={() => login()}>Sign in with Google 🚀 </button>
               :
                 <Switch>
+                  <Route path="/oauth2/redirect" component={OAuth2RedirectHandler}></Route>
                   <Route exact path="/" component={Home} />
                   <Route exact path="/contacts" component={Contacts} />
                   <Route exact path="/contacts/create" component={CreateContact} />
