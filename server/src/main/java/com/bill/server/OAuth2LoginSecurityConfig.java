@@ -14,22 +14,16 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class OAuth2LoginSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-                .authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().authenticated()
-                ).oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
-                //.oauth2Login(oAuthConfig -> oAuthConfig.)
-                /*
-                .oauth2Login(oAuthConfig -> {
-                    oAuthConfig.successHandler((req, res, auth) -> {
-                        var referrer = req.getHeader("referrer");
-                       System.out.println(auth);
-                       res.getOutputStream().println("Dude!");
-
-                    }).failureHandler((req, res, ex) -> {
-                        ex.printStackTrace();
-                    });
-                });*/
+        http.authorizeHttpRequests(authorize -> authorize.anyRequest().authenticated())
+                .oauth2ResourceServer((oauth2) -> oauth2.jwt(Customizer.withDefaults()));
+        // .oauth2Login(oAuthConfig -> oAuthConfig.)
+        /*
+         * .oauth2Login(oAuthConfig -> { oAuthConfig.successHandler((req, res, auth) ->
+         * { var referrer = req.getHeader("referrer"); System.out.println(auth);
+         * res.getOutputStream().println("Dude!");
+         * 
+         * }).failureHandler((req, res, ex) -> { ex.printStackTrace(); }); });
+         */
         return http.build();
     }
 }
