@@ -25,19 +25,21 @@ export type ContactRecord = ContactMutation & {
 };
 
 const serverHostPort = process.env.SERVER_PORT || "localhost:8080";
-const HEADERS = {
+export const HEADERS = {
   Accept: 'application/json',
   'Content-Type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 // Handful of helper functions to be called from route loaders and actions
 
-function getServerUrl(path: string) {
+export function getServerUrl(path: string) {
   return `http://${serverHostPort}${path}`
 }
 
-function getHeaders() {
+export function getHeaders() {
   const user = getUser();
   return {...HEADERS, 'Access-Token': user?.access_token};
 }

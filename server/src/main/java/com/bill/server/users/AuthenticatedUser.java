@@ -1,5 +1,6 @@
 package com.bill.server.users;
 
+import com.bill.server.users.User;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.Authentication;
 
