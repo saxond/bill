@@ -15,7 +15,7 @@ import { fetchUser } from "./data.ts";
 import type { ResolvedUser, User } from "./user.ts";
 
 import { GoogleOAuthProvider, googleLogout, useGoogleLogin } from '@react-oauth/google';
-import './style.css';
+import './App.css';
 
 const CLIENT_ID = "221336944887-mbva4chbrcusdl2gmk525jse6rudfv4q.apps.googleusercontent.com";
 
