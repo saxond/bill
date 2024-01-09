@@ -14,6 +14,11 @@ Docker Desktop
 
 ## Getting started
 
+Enable your google account for access:
+
+    $ mysql -p db 
+    UPDATE `db`.`users` SET `enabled` = true WHERE (`email` = 'pennybot@gmail.com');
+
 I used this remix tutorial to get started:
 
 https://remix.run/docs/en/main/start/tutorial
